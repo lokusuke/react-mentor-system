@@ -9,7 +9,9 @@ export const getAvailableMentorsByStudentId = (
     (a) => a.student.id === studentId,
   );
 
-  const target = targetAvailableMentors?.mentors.map((mentor) => mentor.name);
+  const target = targetAvailableMentors?.availableMentors.map(
+    (mentor) => mentor.name,
+  );
 
   return target ?? [];
 };
@@ -20,7 +22,7 @@ export const getSupportedStudentsByMentorId = (
   availableMentors: AssistantAvailable[],
 ) => {
   const target = availableMentors.filter((am) => {
-    const mentorIdList = am.mentors.map((a) => a.id);
+    const mentorIdList = am.availableMentors.map((a) => a.id);
     return mentorIdList.includes(mentorId);
   });
 

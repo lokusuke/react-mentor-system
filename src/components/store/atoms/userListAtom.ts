@@ -8,7 +8,7 @@ type NewUserFormat = Omit<Student, "id"> | Omit<Mentor, "id">;
 // 課題コードに対応したサポート可能なメンターリストの型を定義
 export type AssistantAvailable = {
   student: Student;
-  mentors: Mentor[];
+  availableMentors: Mentor[];
 };
 
 // ユーザーリストの生データの複製をAtomで管理
@@ -24,17 +24,17 @@ export const userListSummaryAtom = atom((get) => {
 // ユーザーリストのうち、生徒のみを取得する関数Atomを定義（Read-Only）
 export const studentListSummaryAtom = atom((get) => {
   const { allUsers } = get(userListSummaryAtom);
-  const studentList = allUsers.filter((user) => user.role === "student");
-  const amountOfStudent = studentList.length;
-  return { studentList, amountOfStudent };
+  const students = allUsers.filter((user) => user.role === "student");
+  const amountOfStudent = students.length;
+  return { students, amountOfStudent };
 });
 
 // ユーザーリストのうち、メンターのみを取得する関数Atomを定義（Read-Only）
 export const mentorListSummaryAtom = atom((get) => {
   const { allUsers } = get(userListSummaryAtom);
-  const mentorList = allUsers.filter((user) => user.role === "mentor");
-  const amountOfMentor = mentorList.length;
-  return { mentorList, amountOfMentor };
+  const mentors = allUsers.filter((user) => user.role === "mentor");
+  const amountOfMentor = mentors.length;
+  return { mentors, amountOfMentor };
 });
 
 // ユーザーリストに新規ユーザーを追加する関数Atomを定義（Write-Only)
@@ -56,23 +56,21 @@ export const appendUser = atom(null, (get, set, newUser: NewUserFormat) => {
 
 // Studentの課題サポートが可能なメンター情報を取得する関数(Read-Only)
 export const assistantAvailableListAtom = atom<AssistantAvailable[]>((get) => {
-  const { mentorList } = get(mentorListSummaryAtom);
-  const { studentList } = get(studentListSummaryAtom);
+  const { mentors } = get(mentorListSummaryAtom);
+  const { students } = get(studentListSummaryAtom);
 
-  const assistantAvailable: AssistantAvailable[] = studentList.map(
-    (student) => {
-      const mentors = mentorList.filter(
-        (mentor) =>
-          mentor.availableStartCode <= student.taskCode &&
-          mentor.availableEndCode >= student.taskCode,
-      );
+  const assistantAvailable: AssistantAvailable[] = students.map((student) => {
+    const availableMentors = mentors.filter(
+      (mentor) =>
+        mentor.availableStartCode <= student.taskCode &&
+        mentor.availableEndCode >= student.taskCode,
+    );
 
-      return {
-        student,
-        mentors,
-      };
-    },
-  );
+    return {
+      student,
+      availableMentors,
+    };
+  });
 
   return assistantAvailable;
 });
