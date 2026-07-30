@@ -3,7 +3,7 @@ import {
   assistantAvailableListAtom,
   studentListSummaryAtom,
 } from "./store/atoms/userListAtom";
-import { isStudent, type Student } from "./store/data/userType";
+import { type Student } from "./store/data/userType";
 import { CustomTable } from "./common/Table";
 import type { TableColumn } from "./common/Table";
 import { getAvailableMentorsByStudentId } from "./utils/mentorStudentUtils";
@@ -27,20 +27,18 @@ export const StudentList = () => {
     { name: "URL", render: (u) => u.url },
     {
       name: "勉強時間",
-      render: (u) => (isStudent(u) ? u.studyMinutes : "-"),
+      render: (u) => u.studyMinutes,
     },
-    { name: "課題番号", render: (u) => (isStudent(u) ? u.taskCode : "-") },
+    { name: "課題番号", render: (u) => u.taskCode },
     {
       name: "勉強中の言語",
-      render: (u) => (isStudent(u) ? u.studyLangs.join("/") : "-"),
+      render: (u) => u.studyLangs.join("/"),
     },
-    { name: "ハピネススコア", render: (u) => (isStudent(u) ? u.score : "-") },
+    { name: "ハピネススコア", render: (u) => u.score },
     {
       name: "対応可能なメンター",
       render: (u) =>
-        isStudent(u)
-          ? getAvailableMentorsByStudentId(u.id, availableMentors).join(",")
-          : "-",
+        getAvailableMentorsByStudentId(u.id, availableMentors).join(","),
     },
   ];
 
