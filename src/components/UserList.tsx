@@ -9,7 +9,7 @@ import type { TableColumn } from "./common/Table";
 import {
   getAvailableMentorsByStudentId,
   getSupportedStudentsByMentorId,
-} from "./hooks/useAvailableMentor";
+} from "./utils/mentorStudentUtils";
 
 export const UserList = () => {
   // Atomからユーザーリストを取得

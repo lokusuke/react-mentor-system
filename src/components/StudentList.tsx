@@ -6,7 +6,7 @@ import {
 import { isStudent, type Student } from "./store/data/userType";
 import { CustomTable } from "./common/Table";
 import type { TableColumn } from "./common/Table";
-import { getAvailableMentorsByStudentId } from "./hooks/useAvailableMentor";
+import { getAvailableMentorsByStudentId } from "./utils/mentorStudentUtils";
 
 export const StudentList = () => {
   // Atomからユーザーリストを取得
