@@ -1,10 +1,9 @@
-import "./App.css";
-import { UserList } from "./components/UserList";
+import { MentorHubApp } from "./components/MentorHubApp";
 
 function App() {
   return (
     <>
-      <UserList />
+      <MentorHubApp />
     </>
   );
 }
