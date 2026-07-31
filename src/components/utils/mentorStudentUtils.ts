@@ -1,4 +1,4 @@
-import type { AssistantAvailable } from "../store/atoms/userListAtom";
+import type { AssistantAvailable } from "../../store/atoms/userListAtom";
 
 // 指定する生徒をサポート可能なメンターを取得する関数
 export const getAvailableMentorsByStudentId = (
