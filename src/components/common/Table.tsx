@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { User } from "../store/data/userType";
+import type { User } from "../../store/data/userType";
 
 // テーブルカラム情報の型を定義
 export type TableColumn<T> = {
