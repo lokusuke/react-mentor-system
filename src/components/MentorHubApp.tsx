@@ -3,7 +3,7 @@ import { UserList } from "./users/UserList";
 import { StudentList } from "./users/StudentList";
 import { MentorList } from "./users/MentorList";
 import { Button } from "./common/Button";
-import { Modal } from "./common/Modal";
+import { UserAddModal } from "./users/UserAddModal";
 
 // トグルの種類を定義
 type ToggleString = "allUsers" | "students" | "mentors";
@@ -58,6 +58,7 @@ export const MentorHubApp = () => {
           </label>
         </div>
         <Button
+          type="button"
           buttonTitle="+ 新規追加"
           onClick={setIsPushed}
           value={!isPushed}
@@ -67,7 +68,7 @@ export const MentorHubApp = () => {
       {activeToggle === "students" && <StudentList />}
       {activeToggle === "mentors" && <MentorList />}
       {/* Todo: 新規登録ボタンを押したらユーザー登録モーダルを表示 */}
-      {isPushed && <Modal />}
+      {isPushed && <UserAddModal />}
     </div>
   );
 };
