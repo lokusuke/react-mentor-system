@@ -13,7 +13,7 @@ interface Props<T> {
   data: T[];
 }
 
-export const CustomTable = <T extends User>({ columnList, data }: Props<T>) => {
+export const Table = <T extends User>({ columnList, data }: Props<T>) => {
   return (
     <div>
       <table className="table">
