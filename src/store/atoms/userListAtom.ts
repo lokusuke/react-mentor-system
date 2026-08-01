@@ -2,10 +2,10 @@ import { atom } from "jotai";
 import { USER_LIST } from "../data/userData";
 import type { Mentor, Student } from "../data/userType";
 
-// 新規ユーザー登録用の型制約を定義(Student型、Mentor型からidプロパティを除外したもの)
-type NewUserFormat = Omit<Student, "id"> | Omit<Mentor, "id">;
+// 新規ユーザー登録用の型を定義(Student型、Mentor型からidプロパティを除外したもの)
+export type NewUserFormat = Omit<Student, "id"> | Omit<Mentor, "id">;
 
-// 課題コードに対応したサポート可能なメンターリストの型を定義
+// 特定の生徒をサポート可能なメンターリストの型を定義
 export type AssistantAvailable = {
   student: Student;
   availableMentors: Mentor[];
