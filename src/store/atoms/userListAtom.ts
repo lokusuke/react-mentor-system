@@ -43,8 +43,7 @@ export const appendUser = atom(null, (get, set, newUser: NewUserFormat) => {
   const { allUsers } = get(userListSummaryAtom);
   const userIdList = allUsers.map((user) => user.id);
 
-  // ToDo: allUsersが空のときを考慮する
-  const maxUserId = Math.max(...userIdList);
+  const maxUserId = Math.max(0, ...userIdList);
   const userForRegistration = {
     id: maxUserId + 1, // idの最大値+1を加える
     ...newUser,
