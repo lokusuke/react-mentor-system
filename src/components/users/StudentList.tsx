@@ -4,7 +4,7 @@ import {
   studentListSummaryAtom,
 } from "../../store/atoms/userListAtom";
 import { type Student } from "../../store/data/userType";
-import { CustomTable } from "../common/Table";
+import { Table } from "../common/Table";
 import type { TableColumn } from "../common/Table";
 import { getAvailableMentorsByStudentId } from "../utils/mentorStudentUtils";
 
@@ -44,7 +44,7 @@ export const StudentList = () => {
 
   return (
     <div>
-      <CustomTable columnList={studentColumnList} data={students} />
+      <Table columnList={studentColumnList} data={students} />
     </div>
   );
 };

@@ -4,7 +4,7 @@ import {
   mentorListSummaryAtom,
 } from "../../store/atoms/userListAtom";
 import { type Mentor } from "../../store/data/userType";
-import { CustomTable } from "../common/Table";
+import { Table } from "../common/Table";
 import type { TableColumn } from "../common/Table";
 import { getSupportedStudentsByMentorId } from "../utils/mentorStudentUtils";
 import { formatDaysToMonths } from "../utils/formatDaysToMonths";
@@ -51,7 +51,7 @@ export const MentorList = () => {
 
   return (
     <div>
-      <CustomTable columnList={mentorColumnList} data={mentors} />
+      <Table columnList={mentorColumnList} data={mentors} />
     </div>
   );
 };
