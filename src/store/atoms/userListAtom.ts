@@ -12,8 +12,8 @@ export type AssistantAvailable = {
 };
 
 // 昇順・降順のソートキーを定義
-export type SortKey = null | "studyMinutes" | "score";
-export const sortKeyAtom = atom<SortKey>(null);
+export type SortKey = "" | "studyMinutes" | "score";
+export const sortKeyAtom = atom<SortKey>("");
 
 // ユーザーリストの生データの複製をAtomで管理
 export const userListAtom = atom(USER_LIST);
@@ -85,8 +85,8 @@ export const sortByKeyAscAtom = atom<Student[]>((get) => {
   // ソートキーを取得
   const sortKey = get(sortKeyAtom);
 
-  // ソートキーがnullな元の順序で返す
-  if (sortKey == null) {
+  // ソートキーが空文字なら元の順序で返す
+  if (!sortKey) {
     return students;
   }
   const sortedStudentsAsc = students.toSorted(
@@ -102,8 +102,8 @@ export const sortByKeyDescAtom = atom<Student[]>((get) => {
   // ソートキーを取得
   const sortKey = get(sortKeyAtom);
 
-  // ソートキーがnullな元の順序で返す
-  if (sortKey == null) {
+  // ソートキーが空文字なら元の順序で返す
+  if (!sortKey) {
     return students;
   }
   const sortedStudentsDesc = students.toSorted(
