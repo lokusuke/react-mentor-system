@@ -78,7 +78,7 @@ export const assistantAvailableListAtom = atom<AssistantAvailable[]>((get) => {
   return assistantAvailable;
 });
 
-// 生徒の勉強時間を基準に昇順で並び替える関数Atomを定義
+// 生徒の勉強時間を基準に昇順で並び替える関数Atomを定義（Read-Only）
 export const sortByKeyAscAtom = atom<Student[]>((get) => {
   const { students } = get(studentListSummaryAtom);
 
@@ -95,7 +95,7 @@ export const sortByKeyAscAtom = atom<Student[]>((get) => {
   return sortedStudentsAsc;
 });
 
-// 生徒の勉強時間を基準に降順で並び替える関数Atomを定義
+// 生徒の勉強時間を基準に降順で並び替える関数Atomを定義（Read-Only）
 export const sortByKeyDescAtom = atom<Student[]>((get) => {
   const { students } = get(studentListSummaryAtom);
 
