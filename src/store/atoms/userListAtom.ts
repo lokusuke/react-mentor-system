@@ -11,6 +11,10 @@ export type AssistantAvailable = {
   availableMentors: Mentor[];
 };
 
+// 昇順・降順のソートキーを定義
+export type SortKey = "studyMinutes" | "score";
+export const sortKeyAtom = atom<SortKey>("studyMinutes");
+
 // ユーザーリストの生データの複製をAtomで管理
 export const userListAtom = atom(USER_LIST);
 
@@ -72,4 +76,34 @@ export const assistantAvailableListAtom = atom<AssistantAvailable[]>((get) => {
   });
 
   return assistantAvailable;
+});
+
+// 生徒の勉強時間を基準に昇順で並び替える関数Atomを定義
+export const sortByKeyAscAtom = atom<Student[]>((get) => {
+  const { students } = get(studentListSummaryAtom);
+
+  // ソートキーを取得
+  const sortKey = get(sortKeyAtom);
+
+  // toSortedで元の配列の複製を操作
+  const sortedStudentsAsc = students.toSorted(
+    (a, b) => a[sortKey] - b[sortKey],
+  );
+
+  return sortedStudentsAsc;
+});
+
+// 生徒の勉強時間を基準に降順で並び替える関数Atomを定義
+export const sortByKeyDescAtom = atom<Student[]>((get) => {
+  const { students } = get(studentListSummaryAtom);
+
+  // ソートキーを取得
+  const sortKey = get(sortKeyAtom);
+
+  // toSortedで元の配列の複製を操作
+  const sortedStudentsDesc = students.toSorted(
+    (b, a) => b[sortKey] - a[sortKey],
+  );
+
+  return sortedStudentsDesc;
 });
