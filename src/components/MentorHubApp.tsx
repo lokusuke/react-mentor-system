@@ -67,7 +67,6 @@ export const MentorHubApp = () => {
       {activeToggle === "allUsers" && <UserList />}
       {activeToggle === "students" && <StudentList />}
       {activeToggle === "mentors" && <MentorList />}
-      {/* Todo: 新規登録ボタンを押したらユーザー登録モーダルを表示 */}
       {isPushed && <UserAddModal />}
     </div>
   );
