@@ -11,9 +11,20 @@ export type AssistantAvailable = {
   availableMentors: Mentor[];
 };
 
-// 昇順・降順のソートキーを定義
-export type SortKey = "" | "studyMinutes" | "score";
-export const sortKeyAtom = atom<SortKey>("");
+// ソートキーの型を定義
+export type StudentSortKey = "" | "studyMinutes" | "score";
+export type MentorSortKey = "" | "experienceDays";
+export type SortKey = StudentSortKey | MentorSortKey;
+
+// ソート順序の型を定義
+export type SortOrder = "ASC" | "DESC";
+
+// ソートキーを管理
+export const StudentSortKeyAtom = atom<StudentSortKey>("");
+export const MentorSortKeyAtom = atom<MentorSortKey>("");
+
+// ソートの降順・昇順を管理
+export const sortOrderAtom = atom<SortOrder>("ASC");
 
 // ユーザーリストの生データの複製をAtomで管理
 export const userListAtom = atom(USER_LIST);
@@ -78,37 +89,70 @@ export const assistantAvailableListAtom = atom<AssistantAvailable[]>((get) => {
   return assistantAvailable;
 });
 
-// 生徒の勉強時間を基準に昇順で並び替える関数Atomを定義（Read-Only）
-export const sortByKeyAscAtom = atom<Student[]>((get) => {
+// 生徒において、ソートキーで指定した列を昇順・降順で並び替える関数Atomを定義（Read-Only）
+export const SortedStudentsByKeyAtom = atom<Student[]>((get) => {
   const { students } = get(studentListSummaryAtom);
 
   // ソートキーを取得
-  const sortKey = get(sortKeyAtom);
+  const StudentSortKey = get(StudentSortKeyAtom);
 
   // ソートキーが空文字なら元の順序で返す
-  if (!sortKey) {
+  if (!StudentSortKey) {
     return students;
   }
-  const sortedStudentsAsc = students.toSorted(
-    (a, b) => a[sortKey] - b[sortKey],
-  );
-  return sortedStudentsAsc;
+
+  // 昇順・降順が選択されているか確認
+  const sortOrder = get(sortOrderAtom);
+
+  // ソートキーが選択されているかつ昇順が選択されている
+  if (StudentSortKey && sortOrder === "ASC") {
+    const sortedStudentsAsc = students.toSorted(
+      (a, b) => a[StudentSortKey] - b[StudentSortKey],
+    );
+    return sortedStudentsAsc;
+  }
+
+  // ソートキーが選択されているかつ降順が選択されている
+  if (StudentSortKey && sortOrder === "DESC") {
+    const sortedStudentsDesc = students.toSorted(
+      (a, b) => b[StudentSortKey] - a[StudentSortKey],
+    );
+    return sortedStudentsDesc;
+  }
+  return students;
 });
 
-// 生徒の勉強時間を基準に降順で並び替える関数Atomを定義（Read-Only）
-export const sortByKeyDescAtom = atom<Student[]>((get) => {
-  const { students } = get(studentListSummaryAtom);
+// メンターにおいて、ソートキーで指定した列を昇順・降順で並び替える関数Atomを定義（Read-Only）
+export const SortedMentorsByKeyAtom = atom<Mentor[]>((get) => {
+  const { mentors } = get(mentorListSummaryAtom);
 
   // ソートキーを取得
-  const sortKey = get(sortKeyAtom);
+  const MentorSortKey = get(MentorSortKeyAtom);
 
   // ソートキーが空文字なら元の順序で返す
-  if (!sortKey) {
-    return students;
+  if (!MentorSortKey) {
+    return mentors;
   }
-  const sortedStudentsDesc = students.toSorted(
-    (b, a) => b[sortKey] - a[sortKey],
-  );
 
-  return sortedStudentsDesc;
+  // 昇順・降順が選択されているか確認
+  const sortOrder = get(sortOrderAtom);
+
+  // ソートキーが選択されているかつ昇順が選択されている
+  if (MentorSortKey && sortOrder === "ASC") {
+    const sortedMentorsAsc = mentors.toSorted(
+      (a, b) => a[MentorSortKey] - b[MentorSortKey],
+    );
+    console.log("asc");
+    return sortedMentorsAsc;
+  }
+
+  // ソートキーが選択されているかつ降順が選択されている
+  if (MentorSortKey && sortOrder === "DESC") {
+    const sortedMentorsDesc = mentors.toSorted(
+      (a, b) => b[MentorSortKey] - a[MentorSortKey],
+    );
+    console.log("desc");
+    return sortedMentorsDesc;
+  }
+  return mentors;
 });
