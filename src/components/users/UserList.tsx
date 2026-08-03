@@ -20,6 +20,7 @@ export const UserList = () => {
 
   // カラム情報およびカラム対応する値を取得するrender関数を定義
   const userColumnList: TableColumn<User>[] = [
+    { name: "ID", render: (u) => u.id },
     { name: "名前", render: (u) => u.name },
     { name: "ロール", render: (u) => u.role },
     { name: "メールアドレス", render: (u) => u.email },
