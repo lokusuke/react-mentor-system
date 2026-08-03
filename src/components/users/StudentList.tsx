@@ -1,22 +1,42 @@
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import {
   assistantAvailableListAtom,
-  studentListSummaryAtom,
+  SortedStudentsByKeyAtom,
+  StudentSortKeyAtom,
+  sortOrderAtom,
+  type StudentSortKey,
+  type SortOrder,
 } from "../../store/atoms/userListAtom";
 import { type Student } from "../../store/data/userType";
 import { Table } from "../common/Table";
 import type { TableColumn } from "../common/Table";
 import { getAvailableMentorsByStudentId } from "../utils/mentorStudentUtils";
+import { SelectSortOrder } from "../common/SelectSortOrder";
+import { SelectSortKey } from "../common/SelectSortKey";
 
 export const StudentList = () => {
-  // Atomからユーザーリストを取得
-  const { students } = useAtomValue(studentListSummaryAtom);
+  // Atomからソートに使用する生徒リストを取得
+  const sortedStudents = useAtomValue(SortedStudentsByKeyAtom);
 
   // Atomから利用可能メンター表を取得
   const availableMentors = useAtomValue(assistantAvailableListAtom);
 
+  // Atomからソートキーを取得
+  const [StudentSortKey, setStudentSortKey] = useAtom(StudentSortKeyAtom);
+
+  // Atomから昇順か降順かを取得
+  const [sortOrder, setSortOrder] = useAtom(sortOrderAtom);
+
+  const handleStudentSortKeyChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => setStudentSortKey(e.target.value as StudentSortKey);
+
+  const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
+    setSortOrder(e.target.value as SortOrder);
+
   // カラム情報およびカラム対応する値を取得するrender関数を定義
   const studentColumnList: TableColumn<Student>[] = [
+    { name: "ID", render: (u) => u.id },
     { name: "名前", render: (u) => u.name },
     { name: "ロール", render: (u) => u.role },
     { name: "メールアドレス", render: (u) => u.email },
@@ -44,7 +64,27 @@ export const StudentList = () => {
 
   return (
     <div>
-      <Table columnList={studentColumnList} data={students} />
+      <label>並び替え</label>
+      <SelectSortKey
+        currentSortKey={StudentSortKey}
+        onChange={handleStudentSortKeyChange}
+        options={[
+          { name: "", key: "指定なし" },
+          { name: "studyMinutes", key: "勉強時間" },
+          { name: "score", key: "ハピネススコア" },
+        ]}
+      />
+      {StudentSortKey && (
+        <SelectSortOrder
+          currentSortOrder={sortOrder}
+          onChange={handleSortOrderChange}
+          options={[
+            { name: "ASC", key: "昇順" },
+            { name: "DESC", key: "降順" },
+          ]}
+        />
+      )}
+      <Table columnList={studentColumnList} data={sortedStudents} />
     </div>
   );
 };
