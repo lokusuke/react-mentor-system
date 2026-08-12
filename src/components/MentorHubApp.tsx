@@ -67,7 +67,9 @@ export const MentorHubApp = () => {
       {activeToggle === "allUsers" && <UserList />}
       {activeToggle === "students" && <StudentList />}
       {activeToggle === "mentors" && <MentorList />}
-      {isPushed && <UserAddModal />}
+      {isPushed && (
+        <UserAddModal isPushed={isPushed} setIsPushed={setIsPushed} />
+      )}
     </div>
   );
 };
