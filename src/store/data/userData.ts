@@ -121,4 +121,4 @@ export const USER_LIST: Array<User> = [
     availableStartCode: 301,
     availableEndCode: 505,
   },
-];
+] as const;

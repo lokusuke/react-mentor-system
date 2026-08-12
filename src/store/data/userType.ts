@@ -1,5 +1,5 @@
 // ベースのユーザー型制約を定義
-interface BaseUser {
+export interface BaseUser {
   id: number;
   name: string;
   email: string;
