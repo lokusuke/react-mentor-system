@@ -11,10 +11,10 @@ import {
   commonItems,
   mentorItems,
   studentItems,
+  type AnyRegistrationItem,
 } from "../../store/data/userRegistrationItemType";
-import { HOBBY_OPTIONS } from "../../store/data/hobbies";
 import type { Mentor, Student } from "../../store/data/userType";
-import { LANGUAGE_OPTIONS } from "../../store/data/languages";
+import { FormField } from "./FormField";
 
 type Props = {
   isPushed: boolean;
@@ -33,6 +33,17 @@ export const UserAddModal = ({ isPushed, setIsPushed }: Props) => {
 
   // useFormの戻り値watchは指定プロパティの値を監視
   const watchRole = watch("role");
+
+  // roleによって登録項目を変更する関数
+  const roleItems: AnyRegistrationItem[] =
+    watchRole === "student"
+      ? studentItems
+      : watchRole === "mentor"
+        ? mentorItems
+        : [];
+
+  // 入力フォームの項目を最終決定
+  const formItems: AnyRegistrationItem[] = [...commonItems, ...roleItems];
 
   const onSubmit = (data: UserForm) => {
     const commonUser = {
@@ -89,141 +100,9 @@ export const UserAddModal = ({ isPushed, setIsPushed }: Props) => {
           ユーザー新規登録
         </p>
         <form onSubmit={handleSubmit(onSubmit)}>
-          {commonItems.map((item) => {
-            if (item.key === "role") {
-              return (
-                <div key={item.key}>
-                  <label>{item.name}</label>
-                  <select
-                    className="border"
-                    {...register(item.key, {
-                      required: `${item.name}は必須です。`,
-                    })}
-                  >
-                    <option value="">{`${item.name}を選択してください`}</option>
-                    <option value="student">生徒</option>
-                    <option value="mentor">メンター</option>
-                  </select>
-                </div>
-              );
-            }
-
-            if (item.key === "hobbies") {
-              return (
-                <div key={item.key}>
-                  <label>{item.name}</label>
-                  {Object.entries(HOBBY_OPTIONS).map(
-                    ([categoryKey, category]) => (
-                      <div key={categoryKey}>
-                        <label>{category.label}</label>
-                        {category.items.map((i) => (
-                          <label key={i}>
-                            <input
-                              type="checkbox"
-                              value={i}
-                              {...register(`${item.key}`, {
-                                required: `${item.name}は必須です。`,
-                              })}
-                            />
-                            {i}
-                          </label>
-                        ))}
-                      </div>
-                    ),
-                  )}
-                </div>
-              );
-            }
-
-            return (
-              <div key={item.key}>
-                <label>{item.name}</label>
-
-                <input
-                  className="border"
-                  {...register(
-                    item.key,
-                    item.key === "age"
-                      ? {
-                          valueAsNumber: true,
-                        }
-                      : undefined,
-                  )}
-                />
-              </div>
-            );
-          })}
-          {watchRole === "student" &&
-            studentItems.map((item) => {
-              if (item.key === "studyLangs") {
-                return (
-                  <div key={item.key}>
-                    <label>{item.name}</label>
-                    {Object.entries(LANGUAGE_OPTIONS).map(
-                      ([categoryKey, category]) => (
-                        <div key={categoryKey}>
-                          <label>{category.label}</label>
-                          {category.items.map((i) => (
-                            <label key={i}>
-                              <input
-                                type="checkbox"
-                                value={i}
-                                {...register(`${item.key}`, {
-                                  required: `${item.name}は必須です。`,
-                                })}
-                              />
-                              {i}
-                            </label>
-                          ))}
-                        </div>
-                      ),
-                    )}
-                  </div>
-                );
-              }
-              return (
-                <div key={item.key}>
-                  <label>{item.name}</label>
-                  <input className="border" {...register(item.key)} />
-                </div>
-              );
-            })}
-          {watchRole === "mentor" &&
-            mentorItems.map((item) => {
-              if (item.key === "useLangs") {
-                return (
-                  <div key={item.key}>
-                    <label>{item.name}</label>
-                    {Object.entries(LANGUAGE_OPTIONS).map(
-                      ([categoryKey, category]) => (
-                        <div key={categoryKey}>
-                          <label>{category.label}</label>
-                          {category.items.map((i) => (
-                            <label key={i}>
-                              <input
-                                type="checkbox"
-                                value={i}
-                                {...register(`${item.key}`, {
-                                  required: `${item.name}は必須です。`,
-                                })}
-                              />
-                              {i}
-                            </label>
-                          ))}
-                        </div>
-                      ),
-                    )}
-                  </div>
-                );
-              }
-              return (
-                <div key={item.key}>
-                  <label>{item.name}</label>
-                  <input className="border" {...register(item.key)} />
-                </div>
-              );
-            })}
-
+          {formItems.map((formItem) => (
+            <FormField item={formItem} register={register} key={formItem.key} />
+          ))}
           <Button buttonTitle="送信" type="submit"></Button>
         </form>
       </Modal>
