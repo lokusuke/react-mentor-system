@@ -1,35 +1,6 @@
-export type FrontendItem =
-  | "HTML"
-  | "CSS"
-  | "JavaScript"
-  | "TypeScript"
-  | "React"
-  | "Next.js"
-  | "Vue.js";
-export type BackendItem =
-  | "Golang"
-  | "PHP"
-  | "Ruby"
-  | "Python"
-  | "Java"
-  | "C#"
-  | "Node.js"
-  | "Rails"
-  | "Rust";
-
-export type Languages = {
-  frontend: {
-    label: "フロントエンド";
-    items: FrontendItem[];
-  };
-  backend: {
-    label: "バックエンド";
-    items: BackendItem[];
-  };
-};
-
-export const LANGUAGE_OPTIONS: Languages = {
-  frontend: {
+export const LANGUAGE_OPTIONS = [
+  {
+    id: 1,
     label: "フロントエンド",
     items: [
       "HTML",
@@ -41,7 +12,8 @@ export const LANGUAGE_OPTIONS: Languages = {
       "Vue.js",
     ],
   },
-  backend: {
+  {
+    id: 2,
     label: "バックエンド",
     items: [
       "Golang",
@@ -55,4 +27,6 @@ export const LANGUAGE_OPTIONS: Languages = {
       "Rust",
     ],
   },
-} as const;
+];
+
+export type Languages = typeof LANGUAGE_OPTIONS;
