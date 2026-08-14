@@ -12,7 +12,7 @@ const variantClass = {
 type Props<T> = {
   type: "button" | "submit";
   buttonTitle: string;
-  variant?: "primary" | "secondary" | "success" | "danger"; // ボタンの色
+  variant?: keyof typeof variantClass; // ボタンの色
   onClick?: React.Dispatch<React.SetStateAction<T>>; // クリック時の処理関数
   value?: T; // 処理関数の引数
 };
