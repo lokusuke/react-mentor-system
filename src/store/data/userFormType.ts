@@ -1,22 +1,5 @@
-import type { BaseUser, Mentor, Student, User } from "./userType";
-
-// ----- 新規登録フォーム用の型定義 -----
-export type BaseUserForm = Omit<BaseUser, "id"> & { role: "" | User["role"] };
-
-export type StudentForm = Pick<
-  Student,
-  "studyMinutes" | "taskCode" | "studyLangs" | "score"
->;
-
-export type MentorForm = Pick<
-  Mentor,
-  "experienceDays" | "useLangs" | "availableStartCode" | "availableEndCode"
->;
-
-export type UserForm = BaseUserForm & StudentForm & MentorForm;
-
 // 入力フォームのデフォルト値を定義
-export const defaultFormValues: UserForm = {
+export const defaultFormValues = {
   // 共通項目
   name: "",
   email: "",
@@ -40,3 +23,5 @@ export const defaultFormValues: UserForm = {
   availableEndCode: 0,
 };
 // ------------------------------------------
+
+export type UserForm = typeof defaultFormValues;
