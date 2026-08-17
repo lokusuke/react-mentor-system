@@ -16,4 +16,4 @@ export const HOBBY_OPTIONS = [
   },
 ];
 
-export type Sports = typeof HOBBY_OPTIONS;
+export type Hobbies = typeof HOBBY_OPTIONS;
